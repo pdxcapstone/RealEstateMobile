@@ -7,13 +7,13 @@
 npm install material-ui
 ```
 
-2. After cloning the repository, install dependencies:
+3. After cloning the repository, install dependencies:
 ```
 cd <project folder>
 npm install
 ```
 
-3. Now you can run your local server:
+4. Now you can run your local server:
 ```
 npm start
 ```
