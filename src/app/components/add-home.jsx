@@ -72,11 +72,28 @@ class Main extends React.Component {
         this.refs.leftNav.toggle();
     }
 
+
     _onLoginButtonClick() {
         let address = this.refs.address.getValue();
         var comment = this.refs.comment.getValue();
+        $.ajax({
+            url: "http://capstonedd.cs.pdx.edu:8000/api/houses/",
+            type: "POST",
+            cache: false,
+            data: {nickname: address , address: comment},
+            success: function(data) {
+                if (typeof (Storage) != "undefined") {
+                    localStorage.setItem("token", data.token);
+                    this.setState({errorInfo: "Home added"});
+                    this.refs.LoginErrorDialog.show();
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+                this.setState({errorInfo: "Login failed"});
+                this.refs.LoginErrorDialog.show();
+            }.bind(this)
+        });
     }
-
     render() {
 
         let styles = this.getStyles();
