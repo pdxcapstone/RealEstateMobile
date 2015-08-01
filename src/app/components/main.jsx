@@ -4,7 +4,7 @@ let React = require('react');
 let mui = require('material-ui');
 let Router = require('react-router');
 let FullWidthSection = require('./full-width-section.jsx');
-let LoginLeftNav = require('./login-left-nav.jsx')
+let LoginLeftNav = require('./login-left-nav.jsx');
 let AppCanvas = mui.AppCanvas;
 let AppBar = mui.AppBar;
 let TextField = mui.TextField;
@@ -75,31 +75,25 @@ class Main extends React.Component {
   _onLoginButtonClick() {
     let email = this.refs.email.getValue();
     var password = this.refs.pass.getValue();
-/*
+
+
     $.ajax({
-      type: 'GET',
-      url: "http://www.w3schools.com/ajax/demo_post.asp",
-      //data: {email: email, password: password},
-      statusCode: {
-        401: function() {
-          this.setState({errorInfo: "Seems your email or password is wrong."});
-          this.refs.LoginErrorDialog.show();
-        }.bind(this),
-        403: function() {
-          this.setState({errorInfo: "Seems your email or password is wrong."});
-          this.refs.LoginErrorDialog.show();
-        }.bind(this)
-      },
-      error: function(xhr, ajaxOptions, thrownError) {
-        this.setState({errorInfo: xhr});
-        this.refs.LoginErrorDialog.show();
-      }.bind(this),
+      url: "http://capstonedd.cs.pdx.edu:8000/api/auth/",
+      type: "POST",
+      cache: false,
+      data: {email: "admin@admin.com", password: "admin"},
       success: function(data) {
-        this.setState({errorInfo: data});
+        if (typeof (Storage) != "undefined") {
+          localStorage.setItem("token", data.token);
+          this.context.router.transitionTo("pages");
+        }
+      }.bind(this),
+      error: function(xhr, status, err) {
+        this.setState({errorInfo: "Login failed"});
         this.refs.LoginErrorDialog.show();
       }.bind(this)
     });
-    */
+
   }
 
   render() {
@@ -122,7 +116,7 @@ class Main extends React.Component {
 
         <FullWidthSection style={styles.fullWidthSection}>
           <Dialog
-              title="Error logging in"
+              title="Login"
               actions={standardActions}
               ref="LoginErrorDialog">
             {this.state.errorInfo}

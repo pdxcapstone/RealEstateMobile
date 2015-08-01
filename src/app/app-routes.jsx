@@ -6,11 +6,16 @@ let DefaultRoute = Router.DefaultRoute;
 
 
 let Login = require('./components/main.jsx');
+let Master = require('./components/master.jsx');
+let Pages = require('./components/pages.jsx');
 
 let AppRoutes = (
-    <Route name="login" path="/" handler={Login}>
+    <Route name="root" path="/" handler={Master}>
+        <Route name="pages" handler={Pages} />
+        <Route name="login" handler={Login} />
         <DefaultRoute handler={Login}/>
     </Route>
+
 );
 
 module.exports = AppRoutes;
