@@ -8,6 +8,7 @@ let AppLeftNav = require('./app-left-nav.jsx');
 let AppBar = mui.AppBar;
 let AppCanvas = mui.AppCanvas;
 let TextField = mui.TextField;
+let List = mui.List;
 let Styles = mui.Styles;
 let ThemeManager = new mui.Styles.ThemeManager();
 let { Spacing, Typography } = Styles;
@@ -19,17 +20,17 @@ class Pages extends React.Component {
 
     constructor() {
         super();
-        this._onLeftIconButtonTouchTap = this._onLeftIconButtonTouchTap.bind(this);
+
         this.state = {
-            s: "sd",
-            firstname: "lololo",
+            morgage: "sd",
+            condition: "lololo",
             lastname: "lololo"
         }
 
         if (typeof (Storage) != "undefined") {
 
             $.ajax({
-                url: "http://capstonedd.cs.pdx.edu:8000/api/get-user/",
+                url: "http://capstonedd.cs.pdx.edu:8000/api/houses?id=",
                 type: "GET",
                 cache: false,
                 headers: {
@@ -44,8 +45,7 @@ class Pages extends React.Component {
                     }.bind(this)
                 },
                 error: function(xhr, status, err) {
-                    // Redirect to login if not logged in
-                    this.context.router.transitionTo("login");
+                    //this.context.router.transitionTo("login");
                 }.bind(this)
             });
         } else {
@@ -107,8 +107,23 @@ class Pages extends React.Component {
                     zDepth={0}
                     />
 
+
                 <AppLeftNav ref="leftNav" />
 
+                <List>
+                    <ListItem primaryText="Inbox" leftIcon={<ContentInbox />} />
+                    <ListItem primaryText="Starred" leftIcon={<ActionGrade />} />
+                    <ListItem primaryText="Sent mail" leftIcon={<ContentSend />} />
+                    <ListItem primaryText="Drafts"leftIcon={<ContentDrafts />} />
+                    <ListItem primaryText="Inbox"leftIcon={<ContentInbox />} />
+                </List>
+                <ListDivider />
+                <List>
+                    <ListItem primaryText="All mail" rightIcon={<ActionInfo />} />
+                    <ListItem primaryText="Trash" rightIcon={<ActionInfo />} />
+                    <ListItem primaryText="Spam" rightIcon={<ActionInfo />} />
+                    <ListItem primaryText="Follow up" rightIcon={<ActionInfo />} />
+                </List>
                 <RouteHandler />
 
             </AppCanvas>
