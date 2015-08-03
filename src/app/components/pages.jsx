@@ -19,6 +19,7 @@ class Pages extends React.Component {
 
     constructor() {
         super();
+        this._onLeftIconButtonTouchTap = this._onLeftIconButtonTouchTap.bind(this);
         this.state = {
             s: "sd",
             firstname: "lololo",
