@@ -43,7 +43,8 @@ class Pages extends React.Component {
                     }.bind(this)
                 },
                 error: function(xhr, status, err) {
-                    //this.context.router.transitionTo("login");
+                    // Redirect to login if not logged in
+                    this.context.router.transitionTo("login");
                 }.bind(this)
             });
         } else {
