@@ -18,6 +18,13 @@ class AddHome extends React.Component {
 
     constructor() {
         super();
+        this._onAddHomeClick = this._onAddHomeClick.bind(this);
+        /* Initialize state:
+        this.state = {
+            a = "a",
+            b = "b"
+        }
+         */
         //this is dictionary
         //address: "Something";
         //comment: "comment";
@@ -69,27 +76,22 @@ class AddHome extends React.Component {
     _onAddHomeClick() {
         let nickname = this.refs.nickname.getValue();
         let address = this.refs.address.getValue();
-        var comment = this.refs.comment.getValue();
 
         $.ajax({
-            url: "http://capstonedd.cs.pdx.edu:8000/api/houses",
-            type: "POST",
+            url: "http://capstonedd.cs.pdx.edu:8000/api/houses/",
+            // Use put
+            type: "PUT",
             cache: false,
-            headers: {
-                "Authorization":"JWT " + localStorage.getItem("token")
-            },
+            // Json to be uploaded
+            data: {nickname: nickname, address: address},
             success: function(data) {
-                this.setState({nickname: data.nickname, address: data.address, comment: data.comment})
+                // House updated
             }.bind(this),
-            statusCode: {
-                400: function() {
-                    this.setState({s: "400 ERROR"});
-                }.bind(this)
-            },
             error: function(xhr, status, err) {
-                //this.context.router.transitionTo("login");
+                // Error occurs
             }.bind(this)
         });
+
     }
 
 
@@ -105,11 +107,8 @@ class AddHome extends React.Component {
                 <TextField
                     ref="address"
                     hintText="Address" />
-                <TextField
-                    ref="comment"
-                    hintText="Comment" />
                 <RaisedButton
-                    onTouchTap={this._onAddHomeClick()}
+                    onTouchTap={this._onAddHomeClick}
                     label="Add home" />
             </FullWidthSection>
 
