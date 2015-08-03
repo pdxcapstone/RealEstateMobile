@@ -109,7 +109,7 @@ class AddHome extends React.Component {
                     ref="comment"
                     hintText="Comment" />
                 <RaisedButton
-                    onTouchTap={this._onLoginButtonClick}
+                    onTouchTap={this._onAddHomeClick()}
                     label="Add home" />
             </FullWidthSection>
 
