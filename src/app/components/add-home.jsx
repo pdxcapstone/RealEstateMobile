@@ -79,8 +79,8 @@ class AddHome extends React.Component {
         if (typeof (Storage) != "undefined") {
 
             $.ajax({
-                url: "http://capstonedd.cs.pdx.edu:8000/api/get-user/",
-                type: "PUT",
+                url: "http://capstonedd.cs.pdx.edu:8000/api/houses/",
+                type: "POST",
                 cache: false,
                 headers: {
                     "Authorization":"JWT " + localStorage.getItem("token")
