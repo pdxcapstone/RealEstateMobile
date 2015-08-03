@@ -4,12 +4,9 @@ let React = require('react');
 let mui = require('material-ui');
 let Router = require('react-router');
 let FullWidthSection = require('./full-width-section.jsx');
-let LoginLeftNav = require('./login-left-nav.jsx')
 let AppCanvas = mui.AppCanvas;
-let AppBar = mui.AppBar;
 let TextField = mui.TextField;
 let RaisedButton = mui.RaisedButton;
-let Dialog = mui.Dialog;
 let Styles = mui.Styles;
 let ThemeManager = new mui.Styles.ThemeManager();
 let { Spacing, Typography } = Styles;
@@ -17,15 +14,21 @@ let Colors = mui.Styles.Colors;
 
 let RouteHandler = Router.RouteHandler;
 
-class Main extends React.Component {
+class AddHome extends React.Component {
 
     constructor() {
         super();
-        this._onLeftIconButtonTouchTap = this._onLeftIconButtonTouchTap.bind(this);
-        this._onLoginButtonClick = this._onLoginButtonClick.bind(this);
+        this._onAddHomeClick = this._onAddHomeClick.bind(this);
         this.state = {
-            errorInfo: "lololo"
+            a: "a",
+            b: "b"
         }
+
+        //this is dictionary
+        //address: "Something";
+        //comment: "comment";
+        //only for this class
+
     }
 
     getChildContext() {
@@ -68,85 +71,66 @@ class Main extends React.Component {
         }
     }
 
-    _onLeftIconButtonTouchTap() {
-        this.refs.leftNav.toggle();
-    }
 
-
-    _onLoginButtonClick() {
+    _onAddHomeClick() {
+        let nickname = this.refs.nickname.getValue();
         let address = this.refs.address.getValue();
-        var comment = this.refs.comment.getValue();
-        $.ajax({
-            url: "http://capstonedd.cs.pdx.edu:8000/api/houses/",
-            type: "POST",
-            cache: false,
-            data: {nickname: address , address: comment},
-            success: function(data) {
-                if (typeof (Storage) != "undefined") {
-                    localStorage.setItem("token", data.token);
-                    this.setState({errorInfo: "Home added"});
-                    this.refs.LoginErrorDialog.show();
-                }
-            }.bind(this),
-            error: function(xhr, status, err) {
-                this.setState({errorInfo: "Login failed"});
-                this.refs.LoginErrorDialog.show();
-            }.bind(this)
-        });
+
+        if (typeof (Storage) != "undefined") {
+
+            $.ajax({
+                url: "http://capstonedd.cs.pdx.edu:8000/api/houses/",
+                type: "POST",
+                cache: false,
+                headers: {
+                    "Authorization":"JWT " + localStorage.getItem("token")
+                },
+                // Json to be uploaded
+                data: {nickname: nickname, address: address},
+                success: function(data) {
+                    this.setState({a: "sss"});
+                }.bind(this),
+                error: function(xhr, status, err) {
+                    this.setState({a: xhr});
+                }.bind(this)
+            });
+        } else {
+            this.context.router.transitionTo("login");
+        }
+
     }
+
+
     render() {
 
         let styles = this.getStyles();
 
-        let standardActions = [
-            { text: 'OK' }
-        ]
-
         return (
-            <AppCanvas>
-                <AppBar
-                    title="Real Estate App"
-                    onLeftIconButtonTouchTap={this._onLeftIconButtonTouchTap}
-                    zDepth={0}
-                    />
+            <FullWidthSection style={styles.fullWidthSection}>
+                <h2 style={styles.headline}>{this.state.a} </h2>
+                <TextField
+                    ref="nickname"
+                    hintText="nickname" />
+                <TextField
+                    ref="address"
+                    hintText="Address" />
+                <RaisedButton
+                    onTouchTap={this._onAddHomeClick}
+                    label="Add home" />
+            </FullWidthSection>
 
-                <LoginLeftNav ref="leftNav" />
-
-                <FullWidthSection style={styles.fullWidthSection}>
-                    <Dialog
-                        title="Error logging in"
-                        actions={standardActions}
-                        ref="LoginErrorDialog">
-                        {this.state.errorInfo}
-                    </Dialog>
-                    <h2 style={styles.headline}>Add a house here </h2>
-                    <TextField
-                        ref="address"
-                        style={styles.textField}
-                        hintText="Address" />
-                    <TextField
-                        ref="comment"
-                        style={styles.textField}
-                        hintText="Comment"
-                        type="comment" />
-                    <RaisedButton
-                        onTouchTap={this._onLoginButtonClick}
-                        style={styles.button}
-                        secondary={true}
-                        label="Add home" />
-                </FullWidthSection>
-
-            </AppCanvas>
         );
     }
 }
 
-Main.contextTypes = {
+
+
+AddHome.contextTypes = {
     router: React.PropTypes.func
 };
 
-Main.childContextTypes = {
+AddHome.childContextTypes = {
     muiTheme: React.PropTypes.object
 };
 
-module.exports = Main;
+module.exports = AddHome;
