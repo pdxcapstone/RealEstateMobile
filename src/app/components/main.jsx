@@ -81,7 +81,7 @@ class Main extends React.Component {
       url: "http://capstonedd.cs.pdx.edu:8000/api/auth/",
       type: "POST",
       cache: false,
-      data: {email: "admin@admin.com", password: "admin"},
+      data: {email: "hb1@hb.com", password: "hb1"},
       success: function(data) {
         if (typeof (Storage) != "undefined") {
           localStorage.setItem("token", data.token);
