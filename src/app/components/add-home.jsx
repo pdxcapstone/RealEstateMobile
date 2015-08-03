@@ -19,12 +19,11 @@ class AddHome extends React.Component {
     constructor() {
         super();
         this._onAddHomeClick = this._onAddHomeClick.bind(this);
-        /* Initialize state:
         this.state = {
-            a = "a",
-            b = "b"
+            a: "a",
+            b: "b"
         }
-         */
+
         //this is dictionary
         //address: "Something";
         //comment: "comment";
@@ -77,20 +76,27 @@ class AddHome extends React.Component {
         let nickname = this.refs.nickname.getValue();
         let address = this.refs.address.getValue();
 
-        $.ajax({
-            url: "http://capstonedd.cs.pdx.edu:8000/api/houses/",
-            // Use put
-            type: "PUT",
-            cache: false,
-            // Json to be uploaded
-            data: {nickname: nickname, address: address},
-            success: function(data) {
-                // House updated
-            }.bind(this),
-            error: function(xhr, status, err) {
-                // Error occurs
-            }.bind(this)
-        });
+        if (typeof (Storage) != "undefined") {
+
+            $.ajax({
+                url: "http://capstonedd.cs.pdx.edu:8000/api/get-user/",
+                type: "PUT",
+                cache: false,
+                headers: {
+                    "Authorization":"JWT " + localStorage.getItem("token")
+                },
+                // Json to be uploaded
+                data: {nickname: nickname, address: address},
+                success: function(data) {
+                    this.setState({a: "sss"});
+                }.bind(this),
+                error: function(xhr, status, err) {
+                    this.setState({a: xhr});
+                }.bind(this)
+            });
+        } else {
+            this.context.router.transitionTo("login");
+        }
 
     }
 
@@ -101,6 +107,7 @@ class AddHome extends React.Component {
 
         return (
             <FullWidthSection style={styles.fullWidthSection}>
+                <h2 style={styles.headline}>{this.state.a} </h2>
                 <TextField
                     ref="nickname"
                     hintText="nickname" />
