@@ -24,6 +24,38 @@ class AppLeftNav extends React.Component {
         this._getSelectedIndex = this._getSelectedIndex.bind(this);
         this._onLeftNavChange = this._onLeftNavChange.bind(this);
         this._onHeaderClick = this._onHeaderClick.bind(this);
+
+        this.state = {
+            s: "sd",
+            firstname: "lololo",
+            lastname: "lololo"
+        }
+
+        if (typeof (Storage) != "undefined") {
+
+            $.ajax({
+                url: "http://capstonedd.cs.pdx.edu:8000/api/get-user/",
+                type: "GET",
+                cache: false,
+                headers: {
+                    "Authorization":"JWT " + localStorage.getItem("token")
+                },
+                success: function(data) {
+                    this.setState({firstname: data.firstname, lastname: data.lastname})
+                }.bind(this),
+                statusCode: {
+                    400: function() {
+                        this.setState({s: "home buyer only"});
+                    }.bind(this)
+                },
+                error: function(xhr, status, err) {
+                    // Redirect to login if not logged in
+                    this.context.router.transitionTo("login");
+                }.bind(this)
+            });
+        } else {
+            this.context.router.transitionTo("login");
+        }
     }
 
     getStyles() {
@@ -44,7 +76,7 @@ class AppLeftNav extends React.Component {
     render() {
         let header = (
             <div style={this.getStyles()} onTouchTap={this._onHeaderClick}>
-                Real Estate App
+                Hi, {this.state.firstname} {this.state.lastname}
             </div>
         );
 

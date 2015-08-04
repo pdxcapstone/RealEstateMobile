@@ -22,6 +22,7 @@ class Home extends React.Component {
 
     constructor() {
         super();
+        this._onAddHomeButtonClick = this._onAddHomeButtonClick.bind(this);
         this.state = {
             house: null,
             num: 0
@@ -61,6 +62,10 @@ class Home extends React.Component {
         });
     }
 
+    _onAddHomeButtonClick() {
+        this.context.router.transitionTo("addhome");
+    }
+
     render() {
 
         let iconButtonElement = (
@@ -84,7 +89,7 @@ class Home extends React.Component {
         for (var i = 0; i < this.state.num; i++) {
             list.push(
                 <ListItem
-                    leftAvatar={<Avatar src="https://github.com/callemall/material-ui/blob/master/docs/src/www/images/ok-128.jpg" />}
+                    leftAvatar={<Avatar src="images/ok-128.jpg" />}
                     rightIconButton={rightIconMenu}
                     primaryText={house[i].nickname}
                     secondaryText={house[i].address}
@@ -93,11 +98,18 @@ class Home extends React.Component {
             )
         }
 
+        let buttonStyle = {marginTop:'20px',marginLeft: '100px'};
+
         return (
             <MobileSheet>
                 <List subheader="Houses">
                     {list}
                 </List>
+                <RaisedButton
+                    onTouchTap={this._onAddHomeButtonClick}
+                    style= {buttonStyle}
+                    secondary={true}
+                    label="AddHome" />
             </MobileSheet>
         );
     }

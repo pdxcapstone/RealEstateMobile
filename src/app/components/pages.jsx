@@ -20,37 +20,6 @@ class Pages extends React.Component {
     constructor() {
         super();
         this._onLeftIconButtonTouchTap = this._onLeftIconButtonTouchTap.bind(this);
-        this.state = {
-            s: "sd",
-            firstname: "lololo",
-            lastname: "lololo"
-        }
-
-        if (typeof (Storage) != "undefined") {
-
-            $.ajax({
-                url: "http://capstonedd.cs.pdx.edu:8000/api/get-user/",
-                type: "GET",
-                cache: false,
-                headers: {
-                    "Authorization":"JWT " + localStorage.getItem("token")
-                },
-                success: function(data) {
-                    this.setState({firstname: data.firstname, lastname: data.lastname})
-                }.bind(this),
-                statusCode: {
-                    400: function() {
-                        this.setState({s: "home buyer only"});
-                    }.bind(this)
-                },
-                error: function(xhr, status, err) {
-                    // Redirect to login if not logged in
-                    this.context.router.transitionTo("login");
-                }.bind(this)
-            });
-        } else {
-            this.context.router.transitionTo("login");
-        }
     }
 
     getChildContext() {
@@ -90,6 +59,9 @@ class Pages extends React.Component {
             textField: {
                 paddingLeft: '8px'
             },
+            content: {
+                paddingTop: Spacing.desktopKeylineIncrement + 'px'
+            },
             button: {
                 marginTop: '20px',
                 marginLeft: '100px'
@@ -98,6 +70,7 @@ class Pages extends React.Component {
     }
 
     render() {
+        let styles = this.getStyles();
 
         return (
             <AppCanvas>
@@ -109,7 +82,9 @@ class Pages extends React.Component {
 
                 <AppLeftNav ref="leftNav" />
 
-                <RouteHandler />
+                <div style={styles.content}>
+                    <RouteHandler />
+                </div>
 
             </AppCanvas>
         );
