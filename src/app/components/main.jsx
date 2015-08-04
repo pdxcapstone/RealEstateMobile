@@ -85,7 +85,7 @@ class Main extends React.Component {
       success: function(data) {
         if (typeof (Storage) != "undefined") {
           localStorage.setItem("token", data.token);
-          this.context.router.transitionTo("addhome");
+          this.context.router.transitionTo("home");
         }
       }.bind(this),
       error: function(xhr, status, err) {
