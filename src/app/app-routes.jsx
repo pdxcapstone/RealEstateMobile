@@ -10,12 +10,14 @@ let Master = require('./components/master.jsx');
 let Pages = require('./components/pages.jsx');
 let AddHome = require('./components/add-home.jsx');
 let Home = require('./components/home.jsx');
+let RateHome = require('./components/rate-home.jsx');
 
 let AppRoutes = (
     <Route name="root" path="/" handler={Master}>
         <Route name="pages" handler={Pages}>
             <Route name="home" handler={Home} />
             <Route name="addhome" handler={AddHome}/>
+            <Route name="ratehome" handler={RateHome}/>
         </Route>
         <Route name="login" handler={Login} />
         <DefaultRoute handler={Login}/>
