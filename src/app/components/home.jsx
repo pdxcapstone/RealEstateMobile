@@ -37,7 +37,7 @@ class Home extends React.Component {
         this._handleDialogSubmit = this._handleDialogSubmit.bind(this);
         this.state = {
             house: null,
-            num: 0,
+            num: 0
         }
 
         if (typeof (Storage) != "undefined") {
