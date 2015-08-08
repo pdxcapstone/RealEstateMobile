@@ -6,7 +6,6 @@ let { Colors, Spacing, Typography } = Styles;
 
 let menuItems = [
     { route: 'home', text: 'Home'},
-    { route: 'houses', text: 'Houses' },
     { route: 'categories', text: 'Categories' },
     { route: 'logout', text: 'Log out' },
     { type: MenuItem.Types.SUBHEADER, text: 'Useful Links' },
@@ -38,6 +37,7 @@ class AppLeftNav extends React.Component {
                 type: "GET",
                 cache: false,
                 headers: {
+                    "Origin": "http://capstonedd.cs.pdx.edu",
                     "Authorization":"JWT " + localStorage.getItem("token")
                 },
                 success: function(data) {

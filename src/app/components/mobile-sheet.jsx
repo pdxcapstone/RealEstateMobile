@@ -20,7 +20,7 @@ let MobileSheet = React.createClass({
                 float: 'left',
                 marginBottom: 24,
                 marginRight: 24,
-                width: 360
+                width: screen.width
 
             },
 
@@ -28,7 +28,7 @@ let MobileSheet = React.createClass({
                 border: 'solid 1px #d9d9d9',
                 borderBottom: 'none',
                 height: this.props.height,
-                overflow: 'hidden'
+                overflow: 'scroll'
             },
 
             bottomTear: {
