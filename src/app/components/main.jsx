@@ -46,7 +46,7 @@ class Main extends React.Component {
         paddingTop: Spacing.desktopKeylineIncrement
       },
       fullWidthSection: {
-        maxWidth: '320px',
+        maxWidth: screen.width,
         margin: '0 auto'
       },
       headline: {
@@ -85,7 +85,7 @@ class Main extends React.Component {
       success: function(data) {
         if (typeof (Storage) != "undefined") {
           localStorage.setItem("token", data.token);
-          this.context.router.transitionTo("addhome");
+          this.context.router.transitionTo("home");
         }
       }.bind(this),
       error: function(xhr, status, err) {
