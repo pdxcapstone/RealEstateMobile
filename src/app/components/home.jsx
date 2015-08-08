@@ -38,7 +38,7 @@ class Home extends React.Component {
         this.state = {
             house: null,
             num: 0
-        }
+        };
 
         if (typeof (Storage) != "undefined") {
 
