@@ -90,8 +90,46 @@ class Home extends React.Component {
 
     }
 
-    setItem(value) {
-        return rhs;
+    _handleMapsClick() {
+        window.open("https://www.google.com/maps/place/portland,or", "_system");
+    }
+
+
+    generateAvatar(letter) {
+        let avatar = <Avatar style={{color:'red'}}>A</Avatar>;
+        letter = letter.toUpperCase();
+        letter = letter.charAt(0);
+        switch (letter) {
+            case 'A': avatar = <Avatar style={{backgroundColor:'pink', color:'white'}}>A</Avatar>; break;
+            case 'B': avatar = <Avatar style={{backgroundColor:'yellow', color:'white'}}>B</Avatar>; break;
+            case 'C': avatar = <Avatar style={{backgroundColor:'fuchsia', color:'white'}}>C</Avatar>; break;
+            case 'D': avatar = <Avatar style={{backgroundColor:'coral', color:'white'}}>D</Avatar>; break;
+            case 'E': avatar = <Avatar style={{backgroundColor:'chocolate', color:'white'}}>E</Avatar>; break;
+            case 'F': avatar = <Avatar style={{backgroundColor:'darksalmon', color:'white'}}>F</Avatar>; break;
+            case 'G': avatar = <Avatar style={{backgroundColor:'deeppink', color:'white'}}>G</Avatar>; break;
+            case 'H': avatar = <Avatar style={{backgroundColor:'maroon', color:'white'}}>H</Avatar>; break;
+            case 'I': avatar = <Avatar style={{backgroundColor:'orange', color:'white'}}>I</Avatar>; break;
+            case 'J': avatar = <Avatar style={{backgroundColor:'black', color:'white'}}>J</Avatar>; break;
+            case 'K': avatar = <Avatar style={{backgroundColor:'yellowgreen', color:'white'}}>K</Avatar>; break;
+            case 'L': avatar = <Avatar style={{backgroundColor:'steelblue', color:'white'}}>L</Avatar>; break;
+            case 'M': avatar = <Avatar style={{backgroundColor:'peru', color:'white'}}>M</Avatar>; break;
+            case 'N': avatar = <Avatar style={{backgroundColor:'plum', color:'white'}}>N</Avatar>; break;
+            case 'O': avatar = <Avatar style={{backgroundColor:'navy', color:'white'}}>O</Avatar>; break;
+            case 'P': avatar = <Avatar style={{backgroundColor:'orangered', color:'white'}}>P</Avatar>; break;
+            case 'Q': avatar = <Avatar style={{backgroundColor:'mediumorchid', color:'white'}}>Q</Avatar>; break;
+            case 'R': avatar = <Avatar style={{backgroundColor:'gray', color:'white'}}>R</Avatar>; break;
+            case 'S': avatar = <Avatar style={{backgroundColor:'goldenrod', color:'white'}}>S</Avatar>; break;
+            case 'T': avatar = <Avatar style={{backgroundColor:'dodgerblue', color:'white'}}>T</Avatar>; break;
+            case 'U': avatar = <Avatar style={{backgroundColor:'darkkhaki', color:'white'}}>U</Avatar>; break;
+            case 'V': avatar = <Avatar style={{backgroundColor:'brown', color:'white'}}>V</Avatar>; break;
+            case 'W': avatar = <Avatar style={{backgroundColor:'blueviolet', color:'white'}}>A</Avatar>; break;
+            case 'X': avatar = <Avatar style={{backgroundColor:'forestgreen', color:'white'}}>A</Avatar>; break;
+            case 'Y': avatar = <Avatar style={{backgroundColor:'MediumVioletRed', color:'white'}}>A</Avatar>; break;
+            case 'Z': avatar = <Avatar style={{backgroundColor:'SandyBrown', color:'white'}}>A</Avatar>; break;
+            default : avatar = <Avatar style={{backgroundColor:'PaleVioletRed', color:'white'}}>#</Avatar>;
+        }
+
+        return avatar;
     }
 
     render() {
@@ -130,7 +168,7 @@ class Home extends React.Component {
             for (let j = 0; j < category.length; j++) {
                 clist.push(
                     <ListItem
-                        leftAvatar={<Avatar style={{color:'red'}}>B</Avatar>}
+                        leftAvatar={this.generateAvatar(category[j].summary)}
                         primaryText={category[j].summary}
                         secondaryText={"Score: " + category[j].score}
                         onTouchStart={this._onRateHouseListClick.bind(this, hid, category[j].id)}/>,
@@ -143,14 +181,14 @@ class Home extends React.Component {
                     <CardHeader
                         title={house[i].nickname}
                         subtitle={house[i].address}
-                        avatar={<Avatar style={{color:'red'}}>A</Avatar>}
+                        avatar={this.generateAvatar(house[i].nickname)}
                         showExpandableButton={true}>
                     </CardHeader>
                     <CardText expandable={true}>
                         {clist}
                     </CardText>
                     <CardActions expandable={true}>
-                        <FlatButton label="Show in Maps"/>
+                        <FlatButton label="Show in Maps" onTouchTap={this._handleMapsClick.bind(this)}/>
                     </CardActions>
                 </Card>
             )
