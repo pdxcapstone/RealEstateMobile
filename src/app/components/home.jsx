@@ -37,8 +37,8 @@ class Home extends React.Component {
         this._handleDialogSubmit = this._handleDialogSubmit.bind(this);
         this.state = {
             house: null,
-            num: 0,
-        }
+            num: 0
+        };
 
         if (typeof (Storage) != "undefined") {
 
@@ -53,7 +53,8 @@ class Home extends React.Component {
                     this.setState({house: data.house, num: data.house.length});
                 }.bind(this),
                 error: function(xhr, status, err) {
-                    this.setState({house: xhr});
+                    //return 0;
+                    this.context.router.transitionTo("login");
                 }.bind(this)
             });
         } else {
@@ -134,35 +135,35 @@ class Home extends React.Component {
 
     render() {
 
-
         let list = [];
         let house = this.state.house;
         for (let i = 0; i < this.state.num; i++) {
             let hid = house[i].id;
-            let json = null;
 
+            let json = null;
             // Get categories
             if (typeof (Storage) != "undefined") {
 
                 $.ajax({
-                    url: "http://capstonedd.cs.pdx.edu:8000/api/houses?id=" + hid,
+                    url: "http://capstonedd.cs.pdx.edu:8000/api/houses?id=14",
                     type: "GET",
                     async: false,
                     cache: false,
                     headers: {
-                        "Authorization":"JWT " + localStorage.getItem("token")
+                        "Authorization":"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmlnX2lhdCI6MTQzOTA3MDY2MiwiZmlyc3RuYW1lIjoiSm9obiIsImxhc3RuYW1lIjoiRG9lIiwiZXhwIjoxNDM5MDczNjYyLCJ1c2VyX2lkIjo3LCJlbWFpbCI6ImhiMUBoYi5jb20ifQ.Xtc7OTtxTaMYAQ8ERCV64mzYigruNOuN-9Uf_dNggRo"
                     },
                     success: function(data) {
                         json = data;
                     }.bind(this),
                     error: function(xhr, status, err) {
-                        return 0;
+                        //return 0;
+                        this.context.router.transitionTo("login");
                     }.bind(this)
                 });
             } else {
                 this.context.router.transitionTo("login");
             }
-
+/*
             let category = json.category;
             let clist = [];
             for (let j = 0; j < category.length; j++) {
@@ -175,7 +176,7 @@ class Home extends React.Component {
                     <ListDivider inset={true} />
                 )
             }
-
+*/
             list.push(
                 <Card initiallyExpanded={false}>
                     <CardHeader
@@ -185,14 +186,15 @@ class Home extends React.Component {
                         showExpandableButton={true}>
                     </CardHeader>
                     <CardText expandable={true}>
-                        {clist}
+                        json
                     </CardText>
                     <CardActions expandable={true}>
-                        <FlatButton label="Show in Maps" onTouchTap={this._handleMapsClick.bind(this)}/>
+                        <FlatButton label="Show in Maps" />
                     </CardActions>
                 </Card>
             )
-        }
+ }
+
 
         let menuItems = [
             { payload: 1, text: '1. Poor' },
@@ -229,7 +231,6 @@ class Home extends React.Component {
                             menuItems={menuItems}/>
                     </div>
                 </Dialog>
-
                 <List subheader="Houses">
                     {list}
                 </List>
