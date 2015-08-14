@@ -28,32 +28,31 @@ let {
 
 let RouteHandler = Router.RouteHandler;
 
-class Home extends React.Component {
+class Category extends React.Component {
 
     constructor() {
         super();
-        this._onAddHomeButtonClick = this._onAddHomeButtonClick.bind(this);
         this._handleDialogCancel = this._handleDialogCancel.bind(this);
         this._handleDialogSubmit = this._handleDialogSubmit.bind(this);
         this.state = {
-            house: null,
+            category: null,
             num: 0
         };
 
         if (typeof (Storage) != "undefined") {
 
             $.ajax({
-                url: "http://capstonedd.cs.pdx.edu:8000/api/houses/",
+                url: "http://capstonedd.cs.pdx.edu:8000/api/categories/",
                 type: "GET",
                 cache: false,
                 headers: {
                     "Authorization":"JWT " + localStorage.getItem("token")
                 },
                 success: function(data) {
-                    this.setState({house: data.house, num: data.house.length});
+                    this.setState({category: data.category, num: data.category.length});
                 }.bind(this),
                 error: function(xhr, status, err) {
-                    this.setState({house: xhr});
+                    this.setState({category: xhr});
                 }.bind(this)
             });
         } else {
@@ -74,21 +73,16 @@ class Home extends React.Component {
         });
     }
 
-    _onAddHomeButtonClick() {
-        this.context.router.transitionTo("addhome");
-    }
-
-    _onRateHouseListClick(phouse, pcategory) {
+    _onRankCategoryListClick(pcategory) {
         if (typeof (Storage) != "undefined") {
-            localStorage.setItem("hid", phouse);
             localStorage.setItem("cid", pcategory);
             localStorage.setItem("score", 1);
-            this.refs.rateHouseDialog.show();
+            this.refs.rankCategoryDialog.show();
         }
     }
 
     _handleDialogCancel() {
-        this.refs.rateHouseDialog.dismiss();
+        this.refs.rankCategoryDialog.dismiss();
     }
 
     _handleDialogSubmit() {
@@ -97,15 +91,15 @@ class Home extends React.Component {
         if (typeof (Storage) != "undefined") {
 
             $.ajax({
-                url: "http://capstonedd.cs.pdx.edu:8000/api/houses?id=" + localStorage.getItem("hid") +
-                    "&category=" + localStorage.getItem("cid") + "&score=" + localStorage.getItem("score"),
+                url: "http://capstonedd.cs.pdx.edu:8000/api/categories?id=" + localStorage.getItem("cid")
+                + "&weight=" + localStorage.getItem("score"),
                 type: "PUT",
                 cache: false,
                 headers: {
                     "Authorization":"JWT " + localStorage.getItem("token")
                 },
                 success: function(data) {
-                    this.refs.rateHouseDialog.dismiss();
+                    this.refs.rankCategoryDialog.dismiss();
                     this.forceUpdate();
                 }.bind(this),
                 error: function(xhr, status, err) {
@@ -115,10 +109,6 @@ class Home extends React.Component {
         } else {
             this.context.router.transitionTo("login");
         }
-    }
-
-    _handleMapsClick() {
-        window.open("https://www.google.com/maps/place/portland,or", "_system");
     }
 
     _handleDropMenuChange(e, selectedIndex, menuItem) {
@@ -159,6 +149,11 @@ class Home extends React.Component {
             case 'X': avatar = <Avatar style={{backgroundColor:'forestgreen', color:'white'}}>A</Avatar>; break;
             case 'Y': avatar = <Avatar style={{backgroundColor:'MediumVioletRed', color:'white'}}>A</Avatar>; break;
             case 'Z': avatar = <Avatar style={{backgroundColor:'SandyBrown', color:'white'}}>A</Avatar>; break;
+            case '1': avatar = <Avatar style={{backgroundColor:'gray', color:'white'}}>1</Avatar>; break;
+            case '2': avatar = <Avatar style={{backgroundColor:'blue', color:'white'}}>2</Avatar>; break;
+            case '3': avatar = <Avatar style={{backgroundColor:'brown', color:'white'}}>3</Avatar>; break;
+            case '4': avatar = <Avatar style={{backgroundColor:'orange', color:'white'}}>4</Avatar>; break;
+            case '5': avatar = <Avatar style={{backgroundColor:'red', color:'white'}}>5</Avatar>; break;
             default : avatar = <Avatar style={{backgroundColor:'PaleVioletRed', color:'white'}}>#</Avatar>;
         }
 
@@ -169,73 +164,25 @@ class Home extends React.Component {
 
 
         let list = [];
-        let house = this.state.house;
+        let category = this.state.category;
         for (let i = 0; i < this.state.num; i++) {
-            let hid = house[i].id;
-            let json = null;
-
-            // Get categories
-            if (typeof (Storage) != "undefined") {
-
-                $.ajax({
-                    url: "http://capstonedd.cs.pdx.edu:8000/api/houses?id=" + hid,
-                    type: "GET",
-                    async: false,
-                    cache: false,
-                    headers: {
-                        "Authorization":"JWT " + localStorage.getItem("token")
-                    },
-                    success: function(data) {
-                        json = data;
-                    }.bind(this),
-                    error: function(xhr, status, err) {
-                        return 0;
-                    }.bind(this)
-                });
-            } else {
-                this.context.router.transitionTo("login");
-            }
-
-            let category = json.category;
-            let clist = [];
-            for (let j = 0; j < category.length; j++) {
-                clist.push(
+                list.push(
                     <ListItem
-                        leftAvatar={this.generateAvatar(category[j].summary)}
-                        primaryText={category[j].summary}
-                        secondaryText={"Score: " + category[j].score}
-                        onTouchStart={this._onRateHouseListClick.bind(this, hid, category[j].id)}/>,
+                        leftAvatar={this.generateAvatar(category[i].weight.toString())}
+                        primaryText={category[i].summary}
+                        secondaryText={category[i].description}
+                        onTouchStart={this._onRankCategoryListClick.bind(this, category[i].id)}/>,
                     <ListDivider inset={true} />
                 )
-            }
-
-            list.push(
-                <Card initiallyExpanded={false}>
-                    <CardHeader
-                        title={house[i].nickname}
-                        subtitle={house[i].address}
-                        avatar={this.generateAvatar(house[i].nickname)}
-                        showExpandableButton={true}>
-                    </CardHeader>
-                    <CardText expandable={true}>
-                        {clist}
-                    </CardText>
-                    <CardActions expandable={true}>
-                        <FlatButton label="Show in Maps" onTouchTap={this._handleMapsClick.bind(this)}/>
-                    </CardActions>
-                </Card>
-            )
         }
 
         let menuItems = [
-            { payload: 1, text: '1. Poor' },
-            { payload: 2, text: '2. Below Average' },
-            { payload: 3, text: '3. Average' },
-            { payload: 4, text: '4. Good' },
-            { payload: 5, text: '5. Excellent' }
+            { payload: 1, text: '1. Very Unimportant' },
+            { payload: 2, text: '2. Unimportant' },
+            { payload: 3, text: '3. Modest' },
+            { payload: 4, text: '4. Important' },
+            { payload: 5, text: '5. Very Important' }
         ];
-
-        let buttonStyle = {marginTop:'20px',marginLeft: '100px'};
 
         let customActions = [
             <FlatButton
@@ -252,10 +199,10 @@ class Home extends React.Component {
 
         return (
             <MobileSheet>
-                <Dialog title="Rate Your House" actions={customActions}
+                <Dialog title="Rank The Category" actions={customActions}
                         autoDetectWindowHeight={true}
                         autoScrollBodyContent={true}
-                        ref="rateHouseDialog">
+                        ref="rankCategoryDialog">
                     <div>
                         <DropDownMenu
                             ref="score"
@@ -264,14 +211,9 @@ class Home extends React.Component {
                     </div>
                 </Dialog>
 
-                <List subheader="Houses">
+                <List subheader="Categories">
                     {list}
                 </List>
-                <RaisedButton
-                    onTouchTap={this._onAddHomeButtonClick}
-                    style= {buttonStyle}
-                    secondary={true}
-                    label="AddHome" />
             </MobileSheet>
         );
     }
@@ -280,12 +222,12 @@ class Home extends React.Component {
 }
 
 
-Home.contextTypes = {
+Category.contextTypes = {
     router: React.PropTypes.func
 };
 
-Home.childContextTypes = {
+Category.childContextTypes = {
     muiTheme: React.PropTypes.object
 };
 
-module.exports = Home;
+module.exports = Category;
