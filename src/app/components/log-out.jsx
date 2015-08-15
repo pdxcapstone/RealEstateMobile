@@ -74,6 +74,8 @@ class AddHome extends React.Component {
 
         return (
 
+
+
             <FullWidthSection style={styles.fullWidthSection}>
                 <p><b>Thank you for using the mobile app.</b></p>
             </FullWidthSection>

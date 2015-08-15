@@ -108,7 +108,7 @@ class AddHome extends React.Component {
 
         return (
             <FullWidthSection style={styles.fullWidthSection}>
-                <h2 style={styles.headline}>{this.state.a} </h2>
+                <h2 style={styles.headline}>Add a home Yo! </h2>
                 <TextField
                     ref="nickname"
                     hintText="nickname" />
