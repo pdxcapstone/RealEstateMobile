@@ -11,6 +11,7 @@ let Pages = require('./components/pages.jsx');
 let AddHome = require('./components/add-home.jsx');
 let Home = require('./components/home.jsx');
 let Category = require('./components/category.jsx');
+let LogOut = require('./components/log-out.jsx');
 
 let AppRoutes = (
     <Route name="root" path="/" handler={Master}>
@@ -19,6 +20,7 @@ let AppRoutes = (
             <Route name="addhome" handler={AddHome}/>
             <Route name="category" handler={Category}/>
         </Route>
+        <Route name="logout" handler={LogOut} />
         <Route name="login" handler={Login} />
         <DefaultRoute handler={Login}/>
     </Route>

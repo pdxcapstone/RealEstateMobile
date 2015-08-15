@@ -7,7 +7,7 @@ let { Colors, Spacing, Typography } = Styles;
 let menuItems = [
     { route: 'home', text: 'Home'},
     { route: 'category', text: 'Categories' },
-    { route: 'login', text: 'Log out' },
+    { route: 'logout', text: 'Log out' },
     { type: MenuItem.Types.SUBHEADER, text: 'Useful Links' },
     { type: MenuItem.Types.LINK, payload: 'http://capstonedd.cs.pdx.edu/', text: 'About' },
     { type: MenuItem.Types.LINK, payload: 'http://capstonedd.cs.pdx.edu/', text: 'Privacy' },
