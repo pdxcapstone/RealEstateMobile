@@ -94,6 +94,7 @@ class AddHome extends React.Component {
                     this.setState({a: xhr});
                 }.bind(this)
             });
+            this.context.router.transitionTo("home");
         } else {
             this.context.router.transitionTo("login");
         }
