@@ -159,6 +159,11 @@ class Home extends React.Component {
             case 'X': avatar = <Avatar style={{backgroundColor:'forestgreen', color:'white'}}>A</Avatar>; break;
             case 'Y': avatar = <Avatar style={{backgroundColor:'MediumVioletRed', color:'white'}}>A</Avatar>; break;
             case 'Z': avatar = <Avatar style={{backgroundColor:'SandyBrown', color:'white'}}>A</Avatar>; break;
+            case '1': avatar = <Avatar style={{backgroundColor:'gray', color:'white'}}>1</Avatar>; break;
+            case '2': avatar = <Avatar style={{backgroundColor:'blue', color:'white'}}>2</Avatar>; break;
+            case '3': avatar = <Avatar style={{backgroundColor:'brown', color:'white'}}>3</Avatar>; break;
+            case '4': avatar = <Avatar style={{backgroundColor:'orange', color:'white'}}>4</Avatar>; break;
+            case '5': avatar = <Avatar style={{backgroundColor:'red', color:'white'}}>5</Avatar>; break;
             default : avatar = <Avatar style={{backgroundColor:'PaleVioletRed', color:'white'}}>#</Avatar>;
         }
 
@@ -201,9 +206,8 @@ class Home extends React.Component {
             for (let j = 0; j < category.length; j++) {
                 clist.push(
                     <ListItem
-                        leftAvatar={this.generateAvatar(category[j].summary)}
+                        leftAvatar={this.generateAvatar(category[j].score.toString())}
                         primaryText={category[j].summary}
-                        secondaryText={"Score: " + category[j].score}
                         onTouchStart={this._onRateHouseListClick.bind(this, hid, category[j].id)}/>,
                     <ListDivider inset={true} />
                 )
