@@ -102,7 +102,7 @@ class Main extends React.Component {
 
     let standardActions = [
       { text: 'OK' }
-    ]
+    ];
 
     return (
       <AppCanvas>

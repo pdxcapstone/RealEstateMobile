@@ -75,7 +75,7 @@ class Pages extends React.Component {
         return (
             <AppCanvas>
                 <AppBar
-                    title="Real Estate App"
+                    title="HomeZZO"
                     onLeftIconButtonTouchTap={this._onLeftIconButtonTouchTap}
                     zDepth={0}
                     />
