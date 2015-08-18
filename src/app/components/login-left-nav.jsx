@@ -40,7 +40,7 @@ class LoginLeftNav extends React.Component {
     render() {
         let header = (
             <div style={this.getStyles()} onTouchTap={this._onHeaderClick}>
-                Real Estate App
+                HomeZZO
             </div>
         );
 
