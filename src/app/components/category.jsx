@@ -35,6 +35,7 @@ class Category extends React.Component {
         this._handleDialogCancel = this._handleDialogCancel.bind(this);
         this._handleDialogSubmit = this._handleDialogSubmit.bind(this);
         this.state = {
+            status: "Loading...",
             category: null,
             num: 0
         };
@@ -197,6 +198,8 @@ class Category extends React.Component {
                 onTouchTap={this._handleDialogSubmit} />
         ];
 
+        this.setState({status: "Categories"});
+
         return (
             <MobileSheet>
                 <Dialog title="Rank The Category" actions={customActions}
@@ -211,7 +214,7 @@ class Category extends React.Component {
                     </div>
                 </Dialog>
 
-                <List subheader="Categories">
+                <List subheader={this.state.status}>
                     {list}
                 </List>
             </MobileSheet>
