@@ -118,8 +118,8 @@ class Home extends React.Component {
         }
     }
 
-    _handleMapsClick() {
-        window.open("https://www.google.com/maps/place/portland,or", "_system");
+    _handleMapsClick(address) {
+        window.open("https://www.google.com/maps/place/" + address, "_system");
     }
 
     _handleDropMenuChange(e, selectedIndex, menuItem) {
@@ -234,7 +234,7 @@ class Home extends React.Component {
                         {clist}
                     </CardText>
                     <CardActions expandable={true}>
-                        <FlatButton label="Show in Maps" onTouchTap={this._handleMapsClick.bind(this)}/>
+                        <FlatButton label="Show in Maps" onTouchTap={this._handleMapsClick.bind(this, house[i].address)}/>
                     </CardActions>
                 </Card>
             )
