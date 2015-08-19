@@ -1,10 +1,10 @@
 {
-  "name": "material-ui-example",
-  "version": "0.8.0",
-  "description": "Sample project that uses material-ui",
+  "name": "RealEstate",
+  "version": "1.0.0",
+  "description": "RealEstate App for PDX",
   "repository": {
     "type": "git",
-    "url": "https://github.com/callemall/material-ui.git"
+    "url": "https://github.com/pdxcapstone/RealEstateMobile.git"
   },
   "scripts": {
     "start": "gulp"

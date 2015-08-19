@@ -25,6 +25,10 @@ class Main extends React.Component {
     this._onLoginButtonClick = this._onLoginButtonClick.bind(this);
     this.state = {
       errorInfo: "lololo"
+    };
+
+    if (typeof (Storage) != "undefined") {
+      localStorage.setItem("token", "");
     }
   }
 
@@ -81,7 +85,7 @@ class Main extends React.Component {
       url: "http://capstonedd.cs.pdx.edu:8000/api/auth/",
       type: "POST",
       cache: false,
-      data: {email: "hb1@hb.com", password: "hb1"},
+      data: {email: email, password: password},
       success: function(data) {
         if (typeof (Storage) != "undefined") {
           localStorage.setItem("token", data.token);
@@ -102,12 +106,12 @@ class Main extends React.Component {
 
     let standardActions = [
       { text: 'OK' }
-    ]
+    ];
 
     return (
       <AppCanvas>
         <AppBar
-        title="Real Estate App"
+        title="HomeZZO"
         onLeftIconButtonTouchTap={this._onLeftIconButtonTouchTap}
         zDepth={0}
         />

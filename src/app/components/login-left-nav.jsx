@@ -6,9 +6,9 @@ let { Colors, Spacing, Typography } = Styles;
 let menuItems = [
     { route: 'login', text: 'Log in' },
     { type: MenuItem.Types.SUBHEADER, text: 'Useful Links' },
-    { type: MenuItem.Types.LINK, payload: 'http://capstonedd.cs.pdx.edu/', text: 'About' },
-    { type: MenuItem.Types.LINK, payload: 'http://capstonedd.cs.pdx.edu/', text: 'Privacy' },
-    { type: MenuItem.Types.LINK, payload: 'http://capstonedd.cs.pdx.edu/', text: 'Terms and Conditions' }
+    { type: MenuItem.Types.LINK, payload: 'http://www.homezzo.com/about.html', text: 'About' },
+    { type: MenuItem.Types.LINK, payload: 'http://www.homezzo.com/privacy.html', text: 'Privacy' },
+    { type: MenuItem.Types.LINK, payload: 'http://www.homezzo.com/terms.html', text: 'Terms and Conditions' }
 ];
 
 
@@ -40,7 +40,7 @@ class LoginLeftNav extends React.Component {
     render() {
         let header = (
             <div style={this.getStyles()} onTouchTap={this._onHeaderClick}>
-                Real Estate App
+                HomeZZO
             </div>
         );
 

@@ -36,6 +36,7 @@ class Home extends React.Component {
         this._handleDialogCancel = this._handleDialogCancel.bind(this);
         this._handleDialogSubmit = this._handleDialogSubmit.bind(this);
         this.state = {
+            status: "loading...",
             house: null,
             num: 0
         };
@@ -50,7 +51,7 @@ class Home extends React.Component {
                     "Authorization":"JWT " + localStorage.getItem("token")
                 },
                 success: function(data) {
-                    this.setState({house: data.house, num: data.house.length});
+                    this.setState({status: "Houses", house: data.house, num: data.house.length});
                 }.bind(this),
                 error: function(xhr, status, err) {
                     this.setState({house: xhr});
@@ -117,8 +118,8 @@ class Home extends React.Component {
         }
     }
 
-    _handleMapsClick() {
-        window.open("https://www.google.com/maps/place/portland,or", "_system");
+    _handleMapsClick(address) {
+        window.open("https://www.google.com/maps/place/" + address, "_system");
     }
 
     _handleDropMenuChange(e, selectedIndex, menuItem) {
@@ -170,8 +171,16 @@ class Home extends React.Component {
         return avatar;
     }
 
-    render() {
+    shortName(string, len) {
+        var str = string;
+        if (string.length > len) {
+            str = string.substring(0, len - 3) + "...";
+        }
 
+        return str;
+    }
+
+    render() {
 
         let list = [];
         let house = this.state.house;
@@ -216,8 +225,8 @@ class Home extends React.Component {
             list.push(
                 <Card initiallyExpanded={false}>
                     <CardHeader
-                        title={house[i].nickname}
-                        subtitle={house[i].address}
+                        title={this.shortName(house[i].nickname, 34)}
+                        subtitle={this.shortName(house[i].address, 40)}
                         avatar={this.generateAvatar(house[i].nickname)}
                         showExpandableButton={true}>
                     </CardHeader>
@@ -225,7 +234,7 @@ class Home extends React.Component {
                         {clist}
                     </CardText>
                     <CardActions expandable={true}>
-                        <FlatButton label="Show in Maps" onTouchTap={this._handleMapsClick.bind(this)}/>
+                        <FlatButton label="Show in Maps" onTouchTap={this._handleMapsClick.bind(this, house[i].address)}/>
                     </CardActions>
                 </Card>
             )
@@ -268,7 +277,7 @@ class Home extends React.Component {
                     </div>
                 </Dialog>
 
-                <List subheader="Houses">
+                <List subheader={this.state.status}>
                     {list}
                 </List>
                 <RaisedButton

@@ -19,6 +19,7 @@ class AddHome extends React.Component {
 
     constructor() {
         super();
+        this._onLoginButtonClick = this._onLoginButtonClick.bind(this);
     }
 
     getChildContext() {
@@ -61,11 +62,9 @@ class AddHome extends React.Component {
         }
     }
 
-//ajax call
-
-
-
-
+    _onLoginButtonClick() {
+        this.context.router.transitionTo("login");
+    }
 
 
     render() {
@@ -77,7 +76,14 @@ class AddHome extends React.Component {
 
 
             <FullWidthSection style={styles.fullWidthSection}>
-                <p><b>Thank you for using the mobile app.</b></p>
+                <p><b>Are you sure?</b></p>
+                <p>You can still access the app by toggle the left navigation bar. OR:</p>
+                <RaisedButton
+                    onTouchTap={this._onLoginButtonClick}
+                    style={styles.button}
+                    secondary={true}
+                    label="Log out" />
+
             </FullWidthSection>
 
         );
