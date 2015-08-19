@@ -19,8 +19,8 @@ let AppRoutes = (
             <Route name="home" handler={Home} />
             <Route name="addhome" handler={AddHome}/>
             <Route name="category" handler={Category}/>
+            <Route name="logout" handler={LogOut} />
         </Route>
-        <Route name="logout" handler={LogOut} />
         <Route name="login" handler={Login} />
         <DefaultRoute handler={Login}/>
     </Route>

@@ -25,7 +25,7 @@ class Main extends React.Component {
     this._onLoginButtonClick = this._onLoginButtonClick.bind(this);
     this.state = {
       errorInfo: "lololo"
-    }
+    };
 
     if (typeof (Storage) != "undefined") {
       localStorage.setItem("token", "");
