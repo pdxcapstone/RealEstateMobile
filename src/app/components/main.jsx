@@ -26,6 +26,10 @@ class Main extends React.Component {
     this.state = {
       errorInfo: "lololo"
     }
+
+    if (typeof (Storage) != "undefined") {
+      localStorage.setItem("token", "");
+    }
   }
 
   getChildContext() {
@@ -107,7 +111,7 @@ class Main extends React.Component {
     return (
       <AppCanvas>
         <AppBar
-        title="Real Estate App"
+        title="HomeZZO"
         onLeftIconButtonTouchTap={this._onLeftIconButtonTouchTap}
         zDepth={0}
         />
