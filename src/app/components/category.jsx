@@ -50,7 +50,7 @@ class Category extends React.Component {
                     "Authorization":"JWT " + localStorage.getItem("token")
                 },
                 success: function(data) {
-                    this.setState({category: data.category, num: data.category.length});
+                    this.setState({status: "Categories", category: data.category, num: data.category.length});
                 }.bind(this),
                 error: function(xhr, status, err) {
                     this.setState({category: xhr});
@@ -197,8 +197,6 @@ class Category extends React.Component {
                 primary={true}
                 onTouchTap={this._handleDialogSubmit} />
         ];
-
-        this.setState({status: "Categories"});
 
         return (
             <MobileSheet>

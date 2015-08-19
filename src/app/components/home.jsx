@@ -51,7 +51,7 @@ class Home extends React.Component {
                     "Authorization":"JWT " + localStorage.getItem("token")
                 },
                 success: function(data) {
-                    this.setState({house: data.house, num: data.house.length});
+                    this.setState({status: "Houses", house: data.house, num: data.house.length});
                 }.bind(this),
                 error: function(xhr, status, err) {
                     this.setState({house: xhr});
@@ -226,7 +226,7 @@ class Home extends React.Component {
                 <Card initiallyExpanded={false}>
                     <CardHeader
                         title={this.shortName(house[i].nickname, 34)}
-                        subtitle={this.shortName(house[i].address, 44)}
+                        subtitle={this.shortName(house[i].address, 40)}
                         avatar={this.generateAvatar(house[i].nickname)}
                         showExpandableButton={true}>
                     </CardHeader>
@@ -262,8 +262,6 @@ class Home extends React.Component {
                 primary={true}
                 onTouchTap={this._handleDialogSubmit} />
         ];
-
-        this.setState({status: "Houses"});
 
         return (
             <MobileSheet>
