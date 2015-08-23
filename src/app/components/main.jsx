@@ -50,7 +50,7 @@ class Main extends React.Component {
         paddingTop: Spacing.desktopKeylineIncrement
       },
       fullWidthSection: {
-        maxWidth: screen.width,
+        maxWidth: '320px',
         margin: '0 auto'
       },
       headline: {
