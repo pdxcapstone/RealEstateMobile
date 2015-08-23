@@ -40,26 +40,6 @@ class Category extends React.Component {
             num: 0
         };
 
-        if (typeof (Storage) != "undefined") {
-
-            $.ajax({
-                url: "http://capstonedd.cs.pdx.edu:8000/api/categories/",
-                type: "GET",
-                cache: false,
-                headers: {
-                    "Authorization":"JWT " + localStorage.getItem("token")
-                },
-                success: function(data) {
-                    this.setState({status: "Categories", category: data.category, num: data.category.length});
-                }.bind(this),
-                error: function(xhr, status, err) {
-                    this.setState({category: xhr});
-                }.bind(this)
-            });
-        } else {
-            this.context.router.transitionTo("login");
-        }
-
     }
 
     getChildContext() {
@@ -101,7 +81,7 @@ class Category extends React.Component {
                 },
                 success: function(data) {
                     this.refs.rankCategoryDialog.dismiss();
-                    this.forceUpdate();
+                    this.render();
                 }.bind(this),
                 error: function(xhr, status, err) {
                     return 1;
@@ -162,6 +142,26 @@ class Category extends React.Component {
     }
 
     render() {
+
+        if (typeof (Storage) != "undefined") {
+
+            $.ajax({
+                url: "http://capstonedd.cs.pdx.edu:8000/api/categories/",
+                type: "GET",
+                cache: false,
+                headers: {
+                    "Authorization":"JWT " + localStorage.getItem("token")
+                },
+                success: function(data) {
+                    this.setState({status: "Categories", category: data.category, num: data.category.length});
+                }.bind(this),
+                error: function(xhr, status, err) {
+                    this.setState({category: xhr});
+                }.bind(this)
+            });
+        } else {
+            this.context.router.transitionTo("login");
+        }
 
 
         let list = [];
