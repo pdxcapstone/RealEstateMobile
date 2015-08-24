@@ -25,6 +25,10 @@ class Main extends React.Component {
     this._onLoginButtonClick = this._onLoginButtonClick.bind(this);
     this.state = {
       errorInfo: "lololo"
+    };
+
+    if (typeof (Storage) != "undefined") {
+      localStorage.setItem("token", "");
     }
   }
 
@@ -75,16 +79,17 @@ class Main extends React.Component {
   _onLoginButtonClick() {
     let email = this.refs.email.getValue();
     var password = this.refs.pass.getValue();
+
+
     $.ajax({
       url: "http://capstonedd.cs.pdx.edu:8000/api/auth/",
       type: "POST",
       cache: false,
-      data: {email: "admin@admin.com", password: "admin"},
+      data: {email: email, password: password},
       success: function(data) {
         if (typeof (Storage) != "undefined") {
           localStorage.setItem("token", data.token);
-          this.setState({errorInfo: "Login successful! Token has been stored in localStorage.token"});
-          this.refs.LoginErrorDialog.show();
+          this.context.router.transitionTo("home");
         }
       }.bind(this),
       error: function(xhr, status, err) {
@@ -92,6 +97,7 @@ class Main extends React.Component {
         this.refs.LoginErrorDialog.show();
       }.bind(this)
     });
+
   }
 
   render() {
@@ -100,12 +106,12 @@ class Main extends React.Component {
 
     let standardActions = [
       { text: 'OK' }
-    ]
+    ];
 
     return (
       <AppCanvas>
         <AppBar
-        title="Real Estate App"
+        title="HomeZZO"
         onLeftIconButtonTouchTap={this._onLeftIconButtonTouchTap}
         zDepth={0}
         />

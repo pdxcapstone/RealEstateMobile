@@ -1,18 +1,21 @@
+
 let React = require('react');
 let Router = require('react-router');
 let { MenuItem, LeftNav, Styles } = require('material-ui');
 let { Colors, Spacing, Typography } = Styles;
 
 let menuItems = [
-    { route: 'login', text: 'Log in' },
+    { route: 'home', text: 'Home'},
+    { route: 'category', text: 'Categories' },
+    { route: 'logout', text: 'Log out' },
     { type: MenuItem.Types.SUBHEADER, text: 'Useful Links' },
-    { type: MenuItem.Types.LINK, payload: 'http://www.homezzo.com/about.html', text: 'About' },
-    { type: MenuItem.Types.LINK, payload: 'http://www.homezzo.com/privacy.html', text: 'Privacy' },
-    { type: MenuItem.Types.LINK, payload: 'http://www.homezzo.com/terms.html', text: 'Terms and Conditions' }
+    { type: MenuItem.Types.LINK, payload: 'http://capstonedd.cs.pdx.edu/', text: 'About' },
+    { type: MenuItem.Types.LINK, payload: 'http://capstonedd.cs.pdx.edu/', text: 'Privacy' },
+    { type: MenuItem.Types.LINK, payload: 'http://capstonedd.cs.pdx.edu/', text: 'Terms and Conditions' }
 ];
 
 
-class LoginLeftNav extends React.Component {
+class AppLeftNav extends React.Component {
 
     constructor() {
         super();
@@ -20,6 +23,38 @@ class LoginLeftNav extends React.Component {
         this._getSelectedIndex = this._getSelectedIndex.bind(this);
         this._onLeftNavChange = this._onLeftNavChange.bind(this);
         this._onHeaderClick = this._onHeaderClick.bind(this);
+
+        this.state = {
+            s: "sd",
+            firstname: "lololo",
+            lastname: "lololo"
+        }
+
+        if (typeof (Storage) != "undefined") {
+
+            $.ajax({
+                url: "http://capstonedd.cs.pdx.edu:8000/api/get-user/",
+                type: "GET",
+                cache: false,
+                headers: {
+                    "Authorization":"JWT " + localStorage.getItem("token")
+                },
+                success: function(data) {
+                    this.setState({firstname: data.firstname, lastname: data.lastname})
+                }.bind(this),
+                statusCode: {
+                    400: function() {
+                        this.setState({s: "home buyer only"});
+                    }.bind(this)
+                },
+                error: function(xhr, status, err) {
+                    // Redirect to login if not logged in
+                    this.context.router.transitionTo("login");
+                }.bind(this)
+            });
+        } else {
+            this.context.router.transitionTo("login");
+        }
     }
 
     getStyles() {
@@ -40,7 +75,7 @@ class LoginLeftNav extends React.Component {
     render() {
         let header = (
             <div style={this.getStyles()} onTouchTap={this._onHeaderClick}>
-                HomeZZO
+                Hi, {this.state.firstname} {this.state.lastname}
             </div>
         );
 
@@ -74,14 +109,14 @@ class LoginLeftNav extends React.Component {
     }
 
     _onHeaderClick() {
-        this.context.router.transitionTo('login');
+        this.context.router.transitionTo('home');
         this.refs.leftNav.close();
     }
 
 }
 
-LoginLeftNav.contextTypes = {
+AppLeftNav.contextTypes = {
     router: React.PropTypes.func
 };
 
-module.exports = LoginLeftNav;
+module.exports = AppLeftNav;
